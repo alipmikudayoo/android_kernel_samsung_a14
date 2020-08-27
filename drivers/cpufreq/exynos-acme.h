@@ -87,7 +87,7 @@ struct exynos_cpufreq_domain {
  * the time it takes on this CPU to switch between
  * two frequencies in nanoseconds
  */
-#define TRANSITION_LATENCY	5000000
+#define TRANSITION_LATENCY	10000
 
 /*
  * if gap of both frequency is lower than threshold(khz),
