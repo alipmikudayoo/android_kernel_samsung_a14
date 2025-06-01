@@ -44,16 +44,7 @@ static struct cpu_freqs *all_freqs[NR_CPUS];
 static unsigned int next_offset;
 
 void cpufreq_task_times_init(struct task_struct *p)
-{
-	unsigned long flags;
 
-	spin_lock_irqsave(&task_time_in_state_lock, flags);
-	p->time_in_state = NULL;
-	spin_unlock_irqrestore(&task_time_in_state_lock, flags);
-	p->max_state = 0;
-}
-
-void cpufreq_task_times_alloc(struct task_struct *p)
 {
 	void *temp;
 	unsigned long flags;
