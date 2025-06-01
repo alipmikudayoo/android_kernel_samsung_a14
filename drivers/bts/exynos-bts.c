@@ -30,7 +30,7 @@
 #define BTS_PDEV_NAME	"exynos-bts"
 #define ID_DEFAULT	0
 
-#define BTSDBG_LOG(x...)	if (btsdbg_log)	dev_notice(x)
+#define BTSDBG_LOG(x...)
 
 #define G3D01_QOS_BASE		0x1A021210
 #define G3D23_QOS_BASE		0x1A021230
