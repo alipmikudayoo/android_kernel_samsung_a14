@@ -1,7 +1,5 @@
 #!/bin/bash
 
-XY_VERSION="-E"
-
 set -e
 
 if [ -z "$1" ]; then
@@ -41,7 +39,7 @@ OUT_VENDORBOOTIMG="$(pwd)/kernel_build/zip/vendor_boot.img"
 OUT_DTBIMAGE="$TMPDIR/dtb.img"
 
 # Kernel-side
-BUILD_ARGS="LOCALVERSION=-aliphutaoo${XY_VERSION} KBUILD_BUILD_USER=Gabriel260BR KBUILD_BUILD_HOST=ExynosUnbound"
+BUILD_ARGS="LOCALVERSION=-alipmikuuu KBUILD_BUILD_USER=Gabriel260BR KBUILD_BUILD_HOST=ExynosUnbound"
 
 kfinish() {
     rm -rf "$TMPDIR"
