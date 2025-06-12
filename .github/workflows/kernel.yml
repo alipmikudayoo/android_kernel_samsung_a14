@@ -1,4 +1,4 @@
-name: KBuildMore actions
+name: Kernel Build
 
 on:
   workflow_dispatch:
