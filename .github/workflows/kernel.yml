@@ -1,4 +1,4 @@
-name: KBuild
+name: KBuildMore actions
 
 on:
   workflow_dispatch:
@@ -10,6 +10,15 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: Cache clang and build-tools
+      uses: actions/cache@v4
+      with:
+        path: |
+          ../clang-r450784d
+          ../build-tools
+        key: ${{ runner.os }}-clang450784d
+
     - name: Install tools
       run: |
         sudo apt-get update -y &>/dev/null || sudo apt-get update -y &>/dev/null || true
@@ -17,10 +26,11 @@ jobs:
         sudo apt-get install brotli zip zstd tar lz4 cpio xz-utils pahole libelf-dev python2 -y || sudo apt-get install python2 pahole libelf-dev brotli zip zstd tar lz4 cpio xz-utils -y
     - name: Build
       run: |
-        curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
+        curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -
         bash build.sh
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: Kernels_a14
-        path: kernel_build/ExynosUnbound*
+        path: |
+          kernel_build/ExynosUnboundA14.zip
+          kernel_build/ExynosUnboundA14.tar

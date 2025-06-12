@@ -2,6 +2,7 @@
 
 set -e
 
+#  hmmm... this script is meant to be run from the root directory of the kernel source tree
 if [ -z "$1" ]; then
     echo "Please exec from root directory"
     exit 1
@@ -9,8 +10,8 @@ fi
 cd "$1"
 
 if [ "$(uname -m)" != "x86_64" ]; then
-  echo "This script requires an x86_64 (64-bit) machine."
-  exit 1
+    echo "This script requires an x86_64 (64-bit) machine."
+    exit 1
 fi
 
 export PATH="$(pwd)/kernel_build/bin:$PATH"
@@ -31,19 +32,18 @@ MODULES_DIR="$DLKM_RAMDISK_DIR/lib/modules"
 MKBOOTIMG="$(pwd)/kernel_build/mkbootimg/mkbootimg.py"
 MKDTBOIMG="$(pwd)/kernel_build/dtb/mkdtboimg.py"
 
-OUT_KERNELZIP="$(pwd)/kernel_build/ExynosUnbound-${XY_VERSION}_a14.zip"
-OUT_KERNELTAR="$(pwd)/kernel_build/ExynosUnbound-${XY_VERSION}_a14.tar"
+OUT_KERNELZIP="$(pwd)/kernel_build/ExynosUnboundA14.zip"
+OUT_KERNELTAR="$(pwd)/kernel_build/ExynosUnboundA14.tar"
 OUT_KERNEL="$OUTDIR/arch/arm64/boot/Image"
 OUT_BOOTIMG="$(pwd)/kernel_build/zip/boot.img"
 OUT_VENDORBOOTIMG="$(pwd)/kernel_build/zip/vendor_boot.img"
 OUT_DTBIMAGE="$TMPDIR/dtb.img"
 
 # Kernel-side
-BUILD_ARGS="LOCALVERSION=-alipmikuuu KBUILD_BUILD_USER=Gabriel260BR KBUILD_BUILD_HOST=ExynosUnbound"
+BUILD_ARGS="LOCALVERSION=-alipwithutaooo KBUILD_BUILD_USER=Gabriel260BR KBUILD_BUILD_HOST=aliphutaoooo"
 
 kfinish() {
     rm -rf "$TMPDIR"
-#    rm -rf "$OUTDIR"
     rm -rf "$MODULES_OUTDIR"
 }
 
@@ -99,13 +99,13 @@ for module in $(cat "$IN_DLKM/modules.load"); do
     if [ -f "$i" ]; then
         cp -f "$i" "$MODULES_DIR/0.0/$module"
     else
-	missing_modules="$missing_modules $module"
+        missing_modules="$missing_modules $module"
     fi
 done
 
 if [ "$missing_modules" != "" ]; then
-        echo "ERROR: the following modules were not found: $missing_modules"
-	exit 1
+    echo "ERROR: the following modules were not found: $missing_modules"
+    exit 1
 fi
 
 depmod 0.0 -b "$DLKM_RAMDISK_DIR"
