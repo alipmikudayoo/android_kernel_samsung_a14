@@ -11,6 +11,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: KernelSU
+      run: |
+        git submodule update --init
+
     - name: Cache clang and build-tools
       uses: actions/cache@v4
       with:
