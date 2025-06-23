@@ -185,11 +185,10 @@ struct devfreq {
 
 	void *data; /* private data for governors */
 
-	unsigned long min_freq;
-	unsigned long max_freq;
-	bool is_boost_device;
-	bool max_boost;
-	unsigned long str_freq;
+	struct dev_pm_qos_request user_min_freq_req;
+	struct dev_pm_qos_request user_max_freq_req;
+	unsigned long scaling_min_freq;
+	unsigned long scaling_max_freq;
 	bool stop_polling;
 
 	unsigned long suspend_freq;
@@ -314,9 +313,6 @@ struct devfreq_passive_data {
 };
 #endif
 
-/* Caution: devfreq->lock must be locked before calling update_devfreq */
-extern int update_devfreq(struct devfreq *devfreq);
-
 #else /* !CONFIG_PM_DEVFREQ */
 static inline struct devfreq *devfreq_add_device(struct device *dev,
 					struct devfreq_dev_profile *profile,
@@ -430,12 +426,6 @@ static inline int devfreq_update_stats(struct devfreq *df)
 {
 	return -EINVAL;
 }
-
-static inline int update_devfreq(struct devfreq *devfreq)
-{
-	return -EINVAL;
-}
-
 #endif /* CONFIG_PM_DEVFREQ */
 
 #endif /* __LINUX_DEVFREQ_H__ */

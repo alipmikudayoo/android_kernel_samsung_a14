@@ -402,43 +402,14 @@ int update_devfreq(struct devfreq *devfreq)
 	if (!devfreq->governor)
 		return -EINVAL;
 
-	if (devfreq->max_boost) {
-		/* Use the max freq for max boosts */
-		freq = ULONG_MAX;
-	} else {
-		/* Reevaluate the proper frequency */
-		err = devfreq->governor->get_target_freq(devfreq, &freq);
-		if (err)
-			return err;
-	}
-
-#if defined(CONFIG_EXYNOS_DVFS_MANAGER)
-	err = find_exynos_devfreq_dm_type(devfreq->dev.parent, &dm_type);
+	/* Reevaluate the proper frequency */
+	err = devfreq->governor->get_target_freq(devfreq, &freq);
 	if (err)
-		return -EINVAL;
+		return err;
+	get_freq_range(devfreq, &min_freq, &max_freq);
 
-	pm_qos_max = devfreq->max_freq;
-
-#if IS_ENABLED(CONFIG_DEVFREQ_GOV_SIMPLE_INTERACTIVE)
-	if (!strcmp(devfreq->governor->name, "interactive") && gov_data->pm_qos_class_max)
-		pm_qos_max = (unsigned long)pm_qos_request(gov_data->pm_qos_class_max);
-#endif
-	if (devfreq->str_freq)
-		policy_update_with_DM_CALL(dm_type, devfreq->str_freq,
-					 devfreq->str_freq, &freq);
-	else
-		policy_update_with_DM_CALL(dm_type, freq, pm_qos_max, &freq);
-#else
-	/*
-	 * Adjust the frequency with user freq and QoS.
-	 *
-	 * List from the highest priority
-	 * max_freq
-	 * min_freq
-	 */
-
-	if (devfreq->min_freq && freq < devfreq->min_freq) {
-		freq = devfreq->min_freq;
+	if (freq < min_freq) {
+		freq = min_freq;
 		flags &= ~DEVFREQ_FLAG_LEAST_UPPER_BOUND; /* Use GLB */
 	}
 	if (freq > max_freq) {
