@@ -711,7 +711,7 @@ int gw3x_get_gpio_dts_info(struct device *dev, struct gf_device *gf_dev)
 			//(const char **)&gf_dev->position))
 		//gf_dev->position = "NA";
 
-	gf_dev->position = "52.255840,14.160";
+	gf_dev->position = "46.47,13.66";
 	pr_info("position:%s\n", gf_dev->position);
 
 	if (of_property_read_u32(np, "goodix,spiclk_speed", &gf_dev->clk_setting->spi_speed))
